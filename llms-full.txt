@@ -84,23 +84,50 @@ following instructions for your OS and CPU architecture.
 <!-- {x-release-please-start-version} -->
 {{< tabpane text=true >}}
 {{% tab header="Binary" lang="en" %}}
-
-To install Toolbox as a binary:
-
+{{< tabpane text=true >}}
+{{% tab header="Linux (AMD64)" lang="en" %}}
+To install Toolbox as a binary on Linux (AMD64):
 ```sh
 # see releases page for other versions
-export VERSION=0.15.0
-curl -O https://storage.googleapis.com/genai-toolbox/v$VERSION/linux/amd64/toolbox
+export VERSION=0.18.0
+curl -L -o toolbox https://storage.googleapis.com/genai-toolbox/v$VERSION/linux/amd64/toolbox
 chmod +x toolbox
 ```
-
+{{% /tab %}}
+{{% tab header="macOS (Apple Silicon)" lang="en" %}}
+To install Toolbox as a binary on macOS (Apple Silicon):
+```sh
+# see releases page for other versions
+export VERSION=0.18.0
+curl -L -o toolbox https://storage.googleapis.com/genai-toolbox/v$VERSION/darwin/arm64/toolbox
+chmod +x toolbox
+```
+{{% /tab %}}
+{{% tab header="macOS (Intel)" lang="en" %}}
+To install Toolbox as a binary on macOS (Intel):
+```sh
+# see releases page for other versions
+export VERSION=0.18.0
+curl -L -o toolbox https://storage.googleapis.com/genai-toolbox/v$VERSION/darwin/amd64/toolbox
+chmod +x toolbox
+```
+{{% /tab %}}
+{{% tab header="Windows (AMD64)" lang="en" %}}
+To install Toolbox as a binary on Windows (AMD64):
+```powershell
+# see releases page for other versions
+$VERSION = "0.18.0"
+Invoke-WebRequest -Uri "https://storage.googleapis.com/genai-toolbox/v$VERSION/windows/amd64/toolbox.exe" -OutFile "toolbox.exe"
+```
+{{% /tab %}}
+{{< /tabpane >}}
 {{% /tab %}}
 {{% tab header="Container image" lang="en" %}}
 You can also install Toolbox as a container:
 
 ```sh
 # see releases page for other versions
-export VERSION=0.15.0
+export VERSION=0.18.0
 docker pull us-central1-docker.pkg.dev/database-toolbox/toolbox/toolbox:$VERSION
 ```
 
@@ -119,7 +146,7 @@ To install from source, ensure you have the latest version of
 [Go installed](https://go.dev/doc/install), and then run the following command:
 
 ```sh
-go install github.com/googleapis/genai-toolbox@v0.15.0
+go install github.com/googleapis/genai-toolbox@v0.18.0
 ```
 
 {{% /tab %}}
@@ -1058,7 +1085,7 @@ In this section, we will download Toolbox, configure our tools in a
     <!-- {x-release-please-start-version} -->
     ```bash
     export OS="linux/amd64" # one of linux/amd64, darwin/arm64, darwin/amd64, or windows/amd64
-    curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/$OS/toolbox
+    curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/$OS/toolbox
     ```
     <!-- {x-release-please-end} -->
 
@@ -1528,8 +1555,8 @@ Create your AlloyDB database with MCP Toolbox.
 
 <html>
   <head>
-    <link rel="canonical" href="https://cloud.google.com/alloydb/docs/create-database-with-mcp-toolbox"/>
-    <meta http-equiv="refresh" content="0;url=https://cloud.google.com/alloydb/docs/create-database-with-mcp-toolbox"/>
+   <link rel="canonical" href="https://cloud.google.com/alloydb/docs/quickstart/create-and-connect"/>
+    <meta http-equiv="refresh" content="0;url=https://cloud.google.com/alloydb/docs/quickstart/create-and-connect"/>
   </head>
 </html>
 
@@ -1647,19 +1674,19 @@ to expose your developer assistant tools to a Looker instance:
    <!-- {x-release-please-start-version} -->
 {{< tabpane persist=header >}}
 {{< tab header="linux/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/linux/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/linux/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/arm64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/arm64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/arm64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="windows/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/windows/amd64/toolbox.exe
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/windows/amd64/toolbox.exe
 {{< /tab >}}
 {{< /tabpane >}}
     <!-- {x-release-please-end} -->
@@ -1886,7 +1913,14 @@ Your AI tool is now connected to Looker using MCP. Try asking your AI
 assistant to list models, explores, dimensions, and measures. Run a
 query, retrieve the SQL for a query, and run a saved Look.
 
+The full tool list is available in the [Prebuilt Tools Reference](../../reference/prebuilt-tools/#looker).
+
 The following tools are available to the LLM:
+
+### Looker Model and Query Tools
+
+These tools are used to get information about a Looker model
+and execute queries against that model.
 
 1. **get_models**: list the LookML models in Looker
 1. **get_explores**: list the explores in a given model
@@ -1897,12 +1931,45 @@ The following tools are available to the LLM:
 1. **query**: Run a query and return the data
 1. **query_sql**: Return the SQL generated by Looker for a query
 1. **query_url**: Return a link to the query in Looker for further exploration
+
+### Looker Content Tools
+
+These tools get saved content (Looks and Dashboards) from a Looker
+instance and create new saved content.
+
 1. **get_looks**: Return the saved Looks that match a title or description
 1. **run_look**: Run a saved Look and return the data
 1. **make_look**: Create a saved Look in Looker and return the URL
 1. **get_dashboards**: Return the saved dashboards that match a title or description
 1. **make_dashboard**: Create a saved dashboard in Looker and return the URL
 1. **add_dashboard_element**: Add a tile to a dashboard
+
+### Looker Instance Health Tools
+
+These tools offer the same health check algorithms that the popular
+CLI [Henry](https://github.com/looker-open-source/henry) offers.
+
+1. **health_pulse**: Check the health of a Looker intance
+1. **health_analyze**: Analyze the usage of a Looker object
+1. **health_vacuum**: Find LookML elements that might be unused
+
+### LookML Authoring Tools
+
+These tools allow enable the caller to write and modify LookML files
+as well as get the database schema needed to write LookML effectively.
+
+1. **dev_mode**: Activate dev mode.
+1. **get_projects**: Get the list of LookML projects
+1. **get_project_files**: Get the list of files in a project
+1. **get_project_file**: Get the contents of a file in a project
+1. **create_project_file**: Create a file in a project
+1. **update_project_file**: Update the contents of a file in a project
+1. **delete_project_file**: Delete a file in a project
+1. **get_connections**: Get the list of connections
+1. **get_connection_schemas**: Get the list of schemas for a connection
+1. **get_connection_databases**: Get the list of databases for a connection
+1. **get_connection_tables**: Get the list of tables for a connection
+1. **get_connection_table_columns**: Get the list of columns for a table in a connection
 
 {{< notice note >}}
 Prebuilt tools are pre-1.0, so expect some tool changes between versions. LLMs
@@ -1951,19 +2018,19 @@ expose your developer assistant tools to a MySQL instance:
    <!-- {x-release-please-start-version} -->
    {{< tabpane persist=header >}}
 {{< tab header="linux/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/linux/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/linux/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/arm64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/arm64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/arm64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="windows/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/windows/amd64/toolbox.exe
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/windows/amd64/toolbox.exe
 {{< /tab >}}
 {{< /tabpane >}}
     <!-- {x-release-please-end} -->
@@ -2266,19 +2333,19 @@ expose your developer assistant tools to a Neo4j instance:
    <!-- {x-release-please-start-version} -->
    {{< tabpane persist=header >}}
 {{< tab header="linux/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/linux/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/linux/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/arm64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/arm64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/arm64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="windows/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/windows/amd64/toolbox.exe
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/windows/amd64/toolbox.exe
 {{< /tab >}}
 {{< /tabpane >}}
     <!-- {x-release-please-end} -->
@@ -2586,19 +2653,19 @@ Omni](https://cloud.google.com/alloydb/omni/current/docs/overview).
    <!-- {x-release-please-start-version} -->
    {{< tabpane persist=header >}}
 {{< tab header="linux/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/linux/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/linux/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/arm64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/arm64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/arm64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="windows/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/windows/amd64/toolbox.exe
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/windows/amd64/toolbox.exe
 {{< /tab >}}
 {{< /tabpane >}}
     <!-- {x-release-please-end} -->
@@ -2917,19 +2984,19 @@ instance:
    <!-- {x-release-please-start-version} -->
    {{< tabpane persist=header >}}
 {{< tab header="linux/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/linux/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/linux/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/arm64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/arm64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/arm64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="windows/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/windows/amd64/toolbox.exe
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/windows/amd64/toolbox.exe
 {{< /tab >}}
 {{< /tabpane >}}
     <!-- {x-release-please-end} -->
@@ -3232,19 +3299,19 @@ to expose your developer assistant tools to a SQLite instance:
    <!-- {x-release-please-start-version} -->
    {{< tabpane persist=header >}}
 {{< tab header="linux/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/linux/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/linux/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/arm64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/arm64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/arm64/toolbox
 {{< /tab >}}
 
 {{< tab header="darwin/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/darwin/amd64/toolbox
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/darwin/amd64/toolbox
 {{< /tab >}}
 
 {{< tab header="windows/amd64" lang="bash" >}}
-curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/windows/amd64/toolbox.exe
+curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/windows/amd64/toolbox.exe
 {{< /tab >}}
 {{< /tabpane >}}
     <!-- {x-release-please-end} -->
@@ -4670,6 +4737,41 @@ message will be displayed.
 ![Toolsets Page](./toolsets.png)
 
 
+# Connect via Gemini CLI Extensions
+Connect to Toolbox via Gemini CLI Extensions.
+
+## Gemini CLI Extensions
+
+[Gemini CLI][gemini-cli] is an open-source AI agent designed to assist with development workflows by assisting with coding, debugging, data exploration, and content creation. Its mission is to provide an agentic interface for interacting with database and analytics services and popular open-source databases.
+
+### How extensions work
+Gemini CLI is highly extensible, allowing for the addition of new tools and capabilities through extensions. You can load the extensions from a GitHub URL, a local directory, or a configurable registry. They provide new tools, slash commands, and prompts to assist with your workflow.
+
+Use the Gemini CLI Extensions to load prebuilt or custom tools to interact with your databases. 
+
+[gemini-cli]: https://google-gemini.github.io/gemini-cli/
+
+Below are a list of Gemini CLI Extensions powered by MCP Toolbox:
+
+* [alloydb](https://github.com/gemini-cli-extensions/alloydb)
+* [alloydb-observability](https://github.com/gemini-cli-extensions/alloydb-observability)
+* [bigquery-conversational-analytics](https://github.com/gemini-cli-extensions/bigquery-conversational-analytics)
+* [bigquery-data-analytics](https://github.com/gemini-cli-extensions/bigquery-data-analytics)
+* [cloud-sql-mysql](https://github.com/gemini-cli-extensions/cloud-sql-mysql)
+* [cloud-sql-mysql-observability](https://github.com/gemini-cli-extensions/cloud-sql-mysql-observability)
+* [cloud-sql-postgresql](https://github.com/gemini-cli-extensions/cloud-sql-postgresql)
+* [cloud-sql-postgresql-observability](https://github.com/gemini-cli-extensions/cloud-sql-postgresql-observability)
+* [cloud-sql-sqlserver](https://github.com/gemini-cli-extensions/cloud-sql-sqlserver)
+* [cloud-sql-sqlserver-observability](https://github.com/gemini-cli-extensions/cloud-sql-sqlserver-observability)
+* [dataplex](https://github.com/gemini-cli-extensions/dataplex)
+* [firestore-native](https://github.com/gemini-cli-extensions/firestore-native)
+* [looker](https://github.com/gemini-cli-extensions/looker)
+* [mcp-toolbox](https://github.com/gemini-cli-extensions/mcp-toolbox)
+* [mysql](https://github.com/gemini-cli-extensions/mysql)
+* [postgres](https://github.com/gemini-cli-extensions/postgres)
+* [spanner](https://github.com/gemini-cli-extensions/spanner)
+* [sql-server](https://github.com/gemini-cli-extensions/sql-server)
+
 # Deploy to Cloud Run
 How to set up and configure Toolbox to run on Cloud Run.
 
@@ -4901,6 +5003,7 @@ contain the specific error message needed to diagnose the problem.
   Manager, it means the Toolbox service account is missing permissions.
     * Ensure the `toolbox-identity` service account has the **Secret Manager
       Secret Accessor** (`roles/secretmanager.secretAccessor`) IAM role.
+
 
 # Deploy to Kubernetes
 How to set up and configure Toolbox to deploy on Kubernetes with Google Kubernetes Engine (GKE).
@@ -5825,6 +5928,9 @@ cluster][alloydb-free-trial].
 - [`postgres-list-installed-extensions`](../tools/postgres/postgres-list-installed-extensions.md)
   List installed extensions in a PostgreSQL database.
 
+- [`postgres-list-views`](../tools/postgres/postgres-list-views.md)
+  List views in an AlloyDB for PostgreSQL database.
+
 ### Pre-built Configurations
 
 - [AlloyDB using MCP](https://googleapis.github.io/genai-toolbox/how-to/connect-ide/alloydb_pg_mcp/)
@@ -5993,7 +6099,7 @@ avoiding full table scans or complex filters.
 - [`bigquery-sql`](../tools/bigquery/bigquery-sql.md)  
   Run SQL queries directly against BigQuery datasets.
 
-- [`bigquery-search-catalog`](../tools/bigquery/bigquery-search_catalog.md)
+- [`bigquery-search-catalog`](../tools/bigquery/bigquery-search-catalog.md)
   List all entries in Dataplex Catalog (e.g. tables, views, models) that matches
   given user query.
 
@@ -6047,9 +6153,11 @@ sources:
     kind: "bigquery"
     project: "my-project-id"
     # location: "US" # Optional: Specifies the location for query jobs.
+    # writeMode: "allowed" # One of: allowed, blocked, protected. Defaults to "allowed".
     # allowedDatasets: # Optional: Restricts tool access to a specific list of datasets.
     #   - "my_dataset_1"
     #   - "other_project.my_dataset_2"
+    # impersonateServiceAccount: "service-account@project-id.iam.gserviceaccount.com" # Optional: Service account to impersonate
 ```
 
 Initialize a BigQuery source that uses the client's access token:
@@ -6061,20 +6169,24 @@ sources:
     project: "my-project-id"
     useClientOAuth: true
     # location: "US" # Optional: Specifies the location for query jobs.
+    # writeMode: "allowed" # One of: allowed, blocked, protected. Defaults to "allowed".
     # allowedDatasets: # Optional: Restricts tool access to a specific list of datasets.
     #   - "my_dataset_1"
     #   - "other_project.my_dataset_2"
+    # impersonateServiceAccount: "service-account@project-id.iam.gserviceaccount.com" # Optional: Service account to impersonate
 ```
 
 ## Reference
 
-| **field**       | **type** | **required** | **description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|-----------------|:--------:|:------------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| kind            |  string  |     true     | Must be "bigquery".                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| project         |  string  |     true     | Id of the Google Cloud project to use for billing and as the default project for BigQuery resources.                                                                                                                                                                                                                                                                                                                                                                                                                |
-| location        |  string  |    false     | Specifies the location (e.g., 'us', 'asia-northeast1') in which to run the query job. This location must match the location of any tables referenced in the query. Defaults to the table's location or 'US' if the location cannot be determined. [Learn More](https://cloud.google.com/bigquery/docs/locations)                                                                                                                                                                                                    |
-| allowedDatasets | []string |    false     | An optional list of dataset IDs that tools using this source are allowed to access. If provided, any tool operation attempting to access a dataset not in this list will be rejected. To enforce this, two types of operations are also disallowed: 1) Dataset-level operations (e.g., `CREATE SCHEMA`), and 2) operations where table access cannot be statically analyzed (e.g., `EXECUTE IMMEDIATE`, `CREATE PROCEDURE`). If a single dataset is provided, it will be treated as the default for prebuilt tools. |
-| useClientOAuth  |   bool   |    false     | If true, forwards the client's OAuth access token from the "Authorization" header to downstream queries.                                                                                                                                                                                                                                                                                                                                                                                                            |
+| **field**                 | **type** | **required** | **description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|---------------------------|:--------:|:------------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| kind                      |  string  |     true     | Must be "bigquery".                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| project                   |  string  |     true     | Id of the Google Cloud project to use for billing and as the default project for BigQuery resources.                                                                                                                                                                                                                                                                                                                                                                                                                |
+| location                  |  string  |    false     | Specifies the location (e.g., 'us', 'asia-northeast1') in which to run the query job. This location must match the location of any tables referenced in the query. Defaults to the table's location or 'US' if the location cannot be determined. [Learn More](https://cloud.google.com/bigquery/docs/locations)                                                                                                                                                                                                    |
+| writeMode                 |  string  |    false     | Controls the write behavior for tools. `allowed` (default): All queries are permitted. `blocked`: Only `SELECT` statements are allowed for the `bigquery-execute-sql` tool. `protected`: Enables session-based execution where all tools associated with this source instance share the same [BigQuery session](https://cloud.google.com/bigquery/docs/sessions-intro). This allows for stateful operations using temporary tables (e.g., `CREATE TEMP TABLE`). For `bigquery-execute-sql`, `SELECT` statements can be used on all tables, but write operations are restricted to the session's temporary dataset. For tools like `bigquery-sql`, `bigquery-forecast`, and `bigquery-analyze-contribution`, the `writeMode` restrictions do not apply, but they will operate within the shared session. **Note:** The `protected` mode cannot be used with `useClientOAuth: true`. It is also not recommended for multi-user server environments, as all users would share the same session. A session is terminated automatically after 24 hours of inactivity or after 7 days, whichever comes first. A new session is created on the next request, and any temporary data from the previous session will be lost. |
+| allowedDatasets           | []string |    false     | An optional list of dataset IDs that tools using this source are allowed to access. If provided, any tool operation attempting to access a dataset not in this list will be rejected. To enforce this, two types of operations are also disallowed: 1) Dataset-level operations (e.g., `CREATE SCHEMA`), and 2) operations where table access cannot be statically analyzed (e.g., `EXECUTE IMMEDIATE`, `CREATE PROCEDURE`). If a single dataset is provided, it will be treated as the default for prebuilt tools. |
+| useClientOAuth            |   bool   |    false     | If true, forwards the client's OAuth access token from the "Authorization" header to downstream queries. **Note:** This cannot be used with `writeMode: protected`.                                                                                                                                                                                                                                                                                                                                                |
+| impersonateServiceAccount |  string  |    false     | Service account email to impersonate when making BigQuery and Dataplex API calls. The authenticated principal must have the `roles/iam.serviceAccountTokenCreator` role on the target service account. [Learn More](https://cloud.google.com/iam/docs/service-account-impersonation)                                                                                                                                                                                                                                |
 
 
 # Bigtable
@@ -6147,6 +6259,61 @@ sources:
 | kind      |  string  |     true     | Must be "bigtable".                                                           |
 | project   |  string  |     true     | Id of the GCP project that the cluster was created in (e.g. "my-project-id"). |
 | instance  |  string  |     true     | Name of the Bigtable instance.                                                |
+
+
+# Cassandra
+Apache Cassandra is a NoSQL distributed database known for its horizontal scalability, distributed architecture, and flexible schema definition.
+
+
+## About
+
+[Apache Cassandra][cassandra-docs] is a NoSQL distributed database. By design, NoSQL databases are lightweight, open-source, non-relational, and largely distributed. Counted among their strengths are horizontal scalability, distributed architectures, and a flexible approach to schema definition.
+
+[cassandra-docs]: https://cassandra.apache.org/
+
+## Available Tools
+
+- [`cassandra-cql`](../tools/cassandra/cassandra-cql.md)  
+  Run parameterized CQL queries in Cassandra.
+
+
+## Example
+
+```yaml
+sources:
+    my-cassandra-source:
+        kind: cassandra
+        hosts:
+            - 127.0.0.1
+        keyspace: my_keyspace
+        protoVersion: 4
+        username: ${USER_NAME}
+        password: ${PASSWORD}
+        caPath: /path/to/ca.crt # Optional: path to CA certificate
+        certPath: /path/to/client.crt # Optional: path to client certificate
+        keyPath: /path/to/client.key # Optional: path to client key
+        enableHostVerification: true # Optional: enable host verification
+```
+
+{{< notice tip >}}
+Use environment variable replacement with the format ${ENV_NAME}
+instead of hardcoding your secrets into the configuration file.
+{{< /notice >}}
+
+## Reference
+
+| **field**              | **type**  | **required** | **description**                                                                                       |
+|------------------------|:---------:|:------------:|-------------------------------------------------------------------------------------------------------|
+| kind                   |  string   |     true     | Must be "cassandra".                                                                                  |
+| hosts                  |  string[] |     true     | List of IP addresses to connect to (e.g., ["192.168.1.1:9042", "192.168.1.2:9042","192.168.1.3:9042"]). The default port is 9042 if not specified.                                    |
+| keyspace               |  string   |     true     | Name of the Cassandra keyspace to connect to (e.g., "my_keyspace").                                   |
+| protoVersion           |  integer  |    false     | Protocol version for the Cassandra connection (e.g., 4).                                              |
+| username               |  string   |    false     | Name of the Cassandra user to connect as (e.g., "my-cassandra-user").                                 |
+| password               |  string   |    false     | Password of the Cassandra user (e.g., "my-password").                                                 |
+| caPath                 |  string   |    false     | Path to the CA certificate for SSL/TLS (e.g., "/path/to/ca.crt").                                     |
+| certPath               |  string   |    false     | Path to the client certificate for SSL/TLS (e.g., "/path/to/client.crt").                             |
+| keyPath                |  string   |    false     | Path to the client key for SSL/TLS (e.g., "/path/to/client.key").                                     |
+| enableHostVerification |  boolean  |    false     | Enable host verification for SSL/TLS (e.g., true). By default, host verification is disabled.         |
 
 
 # ClickHouse
@@ -6389,16 +6556,16 @@ instead of hardcoding your secrets into the configuration file.
 
 ## Reference
 
-| **field** | **type** | **required** | **description**                                                                             |
-|-----------|:--------:|:------------:|---------------------------------------------------------------------------------------------|
-| kind      |  string  |     true     | Must be "cloud-sql-mysql".                                                                  |
-| project   |  string  |     true     | Id of the GCP project that the cluster was created in (e.g. "my-project-id").               |
-| region    |  string  |     true     | Name of the GCP region that the cluster was created in (e.g. "us-central1").                |
-| instance  |  string  |     true     | Name of the Cloud SQL instance within the cluster (e.g. "my-instance").                     |
-| database  |  string  |     true     | Name of the MySQL database to connect to (e.g. "my_db").                                    |
-| user      |  string  |     true     | Name of the MySQL user to connect as (e.g. "my-pg-user").                                   |
-| password  |  string  |     true     | Password of the MySQL user (e.g. "my-password").                                            |
-| ipType    |  string  |    false     | IP Type of the Cloud SQL instance; must be one of `public` or `private`. Default: `public`. |
+| **field** | **type** | **required** | **description**                                                                                      |
+|-----------|:--------:|:------------:|------------------------------------------------------------------------------------------------------|
+| kind      |  string  |     true     | Must be "cloud-sql-mysql".                                                                           |
+| project   |  string  |     true     | Id of the GCP project that the cluster was created in (e.g. "my-project-id").                        |
+| region    |  string  |     true     | Name of the GCP region that the cluster was created in (e.g. "us-central1").                         |
+| instance  |  string  |     true     | Name of the Cloud SQL instance within the cluster (e.g. "my-instance").                              |
+| database  |  string  |     true     | Name of the MySQL database to connect to (e.g. "my_db").                                             |
+| user      |  string  |     true     | Name of the MySQL user to connect as (e.g. "my-pg-user").                                            |
+| password  |  string  |     true     | Password of the MySQL user (e.g. "my-password").                                                     |
+| ipType    |  string  |    false     | IP Type of the Cloud SQL instance, must be either `public`,  `private`, or `psc`. Default: `public`. |
 
 
 # Cloud SQL for PostgreSQL
@@ -6437,6 +6604,9 @@ to a database by following these instructions][csql-pg-quickstart].
 
 - [`postgres-list-installed-extensions`](../tools/postgres/postgres-list-installed-extensions.md)
   List installed extensions in a PostgreSQL database.
+
+- [`postgres-list-views`](../tools/postgres/postgres-list-views.md)
+  List views in a PostgreSQL database.
 
 ### Pre-built Configurations
 
@@ -6547,9 +6717,9 @@ instead of hardcoding your secrets into the configuration file.
 | region    |  string  |     true     | Name of the GCP region that the cluster was created in (e.g. "us-central1").                                             |
 | instance  |  string  |     true     | Name of the Cloud SQL instance within the cluster (e.g. "my-instance").                                                  |
 | database  |  string  |     true     | Name of the Postgres database to connect to (e.g. "my_db").                                                              |
-| user      |  string  |     false    | Name of the Postgres user to connect as (e.g. "my-pg-user"). Defaults to IAM auth using [ADC][adc] email if unspecified. |
-| password  |  string  |     false    | Password of the Postgres user (e.g. "my-password"). Defaults to attempting IAM authentication if unspecified.            |
-| ipType    |  string  |     false    | IP Type of the Cloud SQL instance; must be one of `public` or `private`. Default: `public`.                              |
+| user      |  string  |    false     | Name of the Postgres user to connect as (e.g. "my-pg-user"). Defaults to IAM auth using [ADC][adc] email if unspecified. |
+| password  |  string  |    false     | Password of the Postgres user (e.g. "my-password"). Defaults to attempting IAM authentication if unspecified.            |
+| ipType    |  string  |    false     | IP Type of the Cloud SQL instance; must be one of `public`, `private`, or `psc`. Default: `public`.                      |
 
 
 # Cloud SQL for SQL Server
@@ -6643,7 +6813,6 @@ sources:
      region: my-region
      instance: my-instance
      database: my_db
-     ipAddress: localhost
      user: ${USER_NAME}
      password: ${PASSWORD}
      # ipType: private
@@ -6656,17 +6825,16 @@ instead of hardcoding your secrets into the configuration file.
 
 ## Reference
 
-| **field** | **type** | **required** | **description**                                                                             |
-|-----------|:--------:|:------------:|---------------------------------------------------------------------------------------------|
-| kind      |  string  |     true     | Must be "cloud-sql-mssql".                                                                  |
-| project   |  string  |     true     | Id of the GCP project that the cluster was created in (e.g. "my-project-id").               |
-| region    |  string  |     true     | Name of the GCP region that the cluster was created in (e.g. "us-central1").                |
-| instance  |  string  |     true     | Name of the Cloud SQL instance within the cluster (e.g. "my-instance").                     |
-| database  |  string  |     true     | Name of the Cloud SQL database to connect to (e.g. "my_db").                                |
-| ipAddress |  string  |     true     | IP address of the Cloud SQL instance to connect to.                                         |
-| user      |  string  |     true     | Name of the SQL Server user to connect as (e.g. "my-pg-user").                              |
-| password  |  string  |     true     | Password of the SQL Server user (e.g. "my-password").                                       |
-| ipType    |  string  |    false     | IP Type of the Cloud SQL instance, must be either `public` or `private`. Default: `public`. |
+| **field** | **type** | **required** | **description**                                                                                      |
+|-----------|:--------:|:------------:|------------------------------------------------------------------------------------------------------|
+| kind      |  string  |     true     | Must be "cloud-sql-mssql".                                                                           |
+| project   |  string  |     true     | Id of the GCP project that the cluster was created in (e.g. "my-project-id").                        |
+| region    |  string  |     true     | Name of the GCP region that the cluster was created in (e.g. "us-central1").                         |
+| instance  |  string  |     true     | Name of the Cloud SQL instance within the cluster (e.g. "my-instance").                              |
+| database  |  string  |     true     | Name of the Cloud SQL database to connect to (e.g. "my_db").                                         |
+| user      |  string  |     true     | Name of the SQL Server user to connect as (e.g. "my-pg-user").                                       |
+| password  |  string  |     true     | Password of the SQL Server user (e.g. "my-password").                                                |
+| ipType    |  string  |    false     | IP Type of the Cloud SQL instance, must be either `public`,  `private`, or `psc`. Default: `public`. |
 
 
 # Cloud SQL Admin
@@ -6676,7 +6844,7 @@ A "cloud-sql-admin" source provides a client for the Cloud SQL Admin API.
 ## About
 
 The `cloud-sql-admin` source provides a client to interact with the [Google
-Cloud SQL Admin API](https://cloud.google.com/sql/docs/mysql/admin-api/v1). This
+Cloud SQL Admin API](https://cloud.google.com/sql/docs/mysql/admin-api). This
 allows tools to perform administrative tasks on Cloud SQL instances, such as
 creating users and databases.
 
@@ -7171,7 +7339,7 @@ maintenance.
 This source uses standard authentication. You will need to [create a Firebird
 user][fb-users] to login to the database with.
 
-[fb-users]: https://firebirdsql.org/refdocs/langrefupd25-sql-create-user.html
+[fb-users]: https://www.firebirdsql.org/refdocs/langrefupd25-security-sql-user-mgmt.html#langrefupd25-security-create-user
 
 ## Example
 
@@ -7341,13 +7509,42 @@ in the cloud, on GCP, or on premises.
 
 ## Requirements
 
-### Database User
+### Looker User
 
 This source only uses API authentication. You will need to
 [create an API user][looker-user] to login to Looker.
 
 [looker-user]:
     https://cloud.google.com/looker/docs/api-auth#authentication_with_an_sdk
+
+{{< notice note >}}
+To use the Conversational Analytics API, you will need to have the following
+Google Cloud Project API enabled and IAM permissions.
+{{< /notice >}}
+
+### API Enablement in GCP
+
+Enable the following APIs in your Google Cloud Project:
+
+```
+gcloud services enable geminidataanalytics.googleapis.com --project=$PROJECT_ID
+gcloud services enable cloudaicompanion.googleapis.com --project=$PROJECT_ID
+```
+
+### IAM Permissions in GCP
+
+In addition to [setting the ADC for your server][set-adc], you need to ensure
+the IAM identity has been given the following IAM roles (or corresponding
+permissions):
+
+- `roles/looker.instanceUser`
+- `roles/cloudaicompanion.user`
+- `roles/geminidataanalytics.dataAgentStatelessUser`
+
+To initialize the application default credential run `gcloud auth login --update-adc`
+in your environment before starting MCP Toolbox.
+
+[set-adc]: https://cloud.google.com/docs/authentication/provide-credentials-adc
 
 ## Example
 
@@ -7358,6 +7555,8 @@ sources:
         base_url: http://looker.example.com
         client_id: ${LOOKER_CLIENT_ID}
         client_secret: ${LOOKER_CLIENT_SECRET}
+        project: ${LOOKER_PROJECT}
+        location: ${LOOKER_LOCATION}
         verify_ssl: true
         timeout: 600s
 ```
@@ -7375,6 +7574,8 @@ The client id and client secret are seemingly random character sequences
 assigned by the looker server. If you are using Looker OAuth you don't need
 these settings
 
+The `project` and `location` fields are utilized **only** when using the conversational analytics tool.
+
 {{< notice tip >}}
 Use environment variable replacement with the format ${ENV_NAME}
 instead of hardcoding your secrets into the configuration file.
@@ -7389,12 +7590,172 @@ instead of hardcoding your secrets into the configuration file.
 | client_id            |  string  |    false     | The client id assigned by Looker.                                                         |
 | client_secret        |  string  |    false     | The client secret assigned by Looker.                                                     |
 | verify_ssl           |  string  |    false     | Whether to check the ssl certificate of the server.                                       |
+| project              |  string  |    false     | The project id to use in Google Cloud.                                                    |
+| location             |  string  |    false     | The location to use in Google Cloud. (default: us)                                        |
 | timeout              |  string  |    false     | Maximum time to wait for query execution (e.g. "30s", "2m"). By default, 120s is applied. |
 | use_client_oauth     |  string  |    false     | Use OAuth tokens instead of client_id and client_secret. (default: false)                 |
 | show_hidden_models   |  string  |    false     | Show or hide hidden models. (default: true)                                               |
 | show_hidden_explores |  string  |    false     | Show or hide hidden explores. (default: true)                                             |
 | show_hidden_fields   |  string  |    false     | Show or hide hidden fields. (default: true)                                               |
 
+
+# MindsDB
+MindsDB is the most widely adopted AI federated database that enables SQL queries across hundreds of datasources and ML models.
+
+
+## About
+
+[MindsDB][mindsdb-docs] is the most widely adopted AI federated database in the world. It allows you to combine information from hundreds of datasources as if they were SQL, supporting joins across datasources and enabling you to query all unstructured data as if it were structured.
+
+MindsDB translates MySQL queries into whatever API is needed - whether it's REST APIs, GraphQL, or native database protocols. This means you can write standard SQL queries and MindsDB automatically handles the translation to APIs like Salesforce, Jira, GitHub, email systems, MongoDB, and hundreds of other datasources.
+
+MindsDB also enables you to use ML frameworks to train and use models as virtual tables from the data in those datasources. With MindsDB, the GenAI Toolbox can now expand to hundreds of datasources and leverage all of MindsDB's capabilities on ML and unstructured data.
+
+**Key Features:**
+- **Federated Database**: Connect and query hundreds of datasources through a single SQL interface
+- **Cross-Datasource Joins**: Perform joins across different datasources seamlessly
+- **API Translation**: Automatically translates MySQL queries into REST APIs, GraphQL, and native protocols
+- **Unstructured Data Support**: Query unstructured data as if it were structured
+- **ML as Virtual Tables**: Train and use ML models as virtual tables
+- **MySQL Wire Protocol**: Compatible with standard MySQL clients and tools
+
+[mindsdb-docs]: https://docs.mindsdb.com/
+[mindsdb-github]: https://github.com/mindsdb/mindsdb
+
+## Supported Datasources
+
+MindsDB supports hundreds of datasources, including:
+
+### **Business Applications**
+- **Salesforce**: Query leads, opportunities, accounts, and custom objects
+- **Jira**: Access issues, projects, workflows, and team data
+- **GitHub**: Query repositories, commits, pull requests, and issues
+- **Slack**: Access channels, messages, and team communications
+- **HubSpot**: Query contacts, companies, deals, and marketing data
+
+### **Databases & Storage**
+- **MongoDB**: Query NoSQL collections as structured tables
+- **Redis**: Key-value stores and caching layers
+- **Elasticsearch**: Search and analytics data
+- **S3/Google Cloud Storage**: File storage and data lakes
+
+### **Communication & Email**
+- **Gmail/Outlook**: Query emails, attachments, and metadata
+- **Slack**: Access workspace data and conversations
+- **Microsoft Teams**: Team communications and files
+- **Discord**: Server data and message history
+
+
+
+## Example Queries
+
+### Cross-Datasource Analytics
+```sql
+-- Join Salesforce opportunities with GitHub activity
+SELECT 
+    s.opportunity_name,
+    s.amount,
+    g.repository_name,
+    COUNT(g.commits) as commit_count
+FROM salesforce.opportunities s
+JOIN github.repositories g ON s.account_id = g.owner_id
+WHERE s.stage = 'Closed Won'
+GROUP BY s.opportunity_name, s.amount, g.repository_name;
+```
+
+### Email & Communication Analysis
+```sql
+-- Analyze email patterns with Slack activity
+SELECT 
+    e.sender,
+    e.subject,
+    s.channel_name,
+    COUNT(s.messages) as message_count
+FROM gmail.emails e
+JOIN slack.messages s ON e.sender = s.user_name
+WHERE e.date >= '2024-01-01'
+GROUP BY e.sender, e.subject, s.channel_name;
+```
+
+### ML Model Predictions
+```sql
+-- Use ML model to predict customer churn
+SELECT 
+    customer_id,
+    customer_name,
+    predicted_churn_probability,
+    recommended_action
+FROM customer_churn_model
+WHERE predicted_churn_probability > 0.8;
+```
+
+## Requirements
+
+### Database User
+
+This source uses standard MySQL authentication since MindsDB implements the MySQL wire protocol. You will need to [create a MindsDB user][mindsdb-users] to login to the database with. If MindsDB is configured without authentication, you can omit the password field.
+
+[mindsdb-users]: https://docs.mindsdb.com/
+## Example
+
+```yaml
+sources:
+    my-mindsdb-source:
+        kind: mindsdb
+        host: 127.0.0.1
+        port: 3306
+        database: my_db
+        user: ${USER_NAME}
+        password: ${PASSWORD} # Optional: omit if MindsDB is configured without authentication
+        queryTimeout: 30s # Optional: query timeout duration
+```
+
+### Working Configuration Example
+
+Here's a working configuration that has been tested:
+
+```yaml
+sources:
+  my-pg-source:
+    kind: mindsdb
+    host: 127.0.0.1
+    port: 47335
+    database: files
+    user: mindsdb
+```
+
+{{< notice tip >}}
+Use environment variable replacement with the format ${ENV_NAME}
+instead of hardcoding your secrets into the configuration file.
+{{< /notice >}}
+
+## Use Cases
+
+With MindsDB integration, you can:
+
+- **Query Multiple Datasources**: Connect to databases, APIs, file systems, and more through a single SQL interface
+- **Cross-Datasource Analytics**: Perform joins and analytics across different data sources
+- **ML Model Integration**: Use trained ML models as virtual tables for predictions and insights
+- **Unstructured Data Processing**: Query documents, images, and other unstructured data as structured tables
+- **Real-time Predictions**: Get real-time predictions from ML models through SQL queries
+- **API Abstraction**: Write SQL queries that automatically translate to REST APIs, GraphQL, and native protocols
+
+## Reference
+
+| **field**    | **type** | **required** | **description**                                                                                 |
+| ------------ | :------: | :----------: | ----------------------------------------------------------------------------------------------- |
+| kind         |  string  |     true     | Must be "mindsdb".                                                                              |
+| host         |  string  |     true     | IP address to connect to (e.g. "127.0.0.1").                                                    |
+| port         |  string  |     true     | Port to connect to (e.g. "3306").                                                               |
+| database     |  string  |     true     | Name of the MindsDB database to connect to (e.g. "my_db").                                      |
+| user         |  string  |     true     | Name of the MindsDB user to connect as (e.g. "my-mindsdb-user").                                |
+| password     |  string  |    false     | Password of the MindsDB user (e.g. "my-password"). Optional if MindsDB is configured without authentication. |
+| queryTimeout |  string  |    false     | Maximum time to wait for query execution (e.g. "30s", "2m"). By default, no timeout is applied. |
+
+## Resources
+
+- [MindsDB Documentation][mindsdb-docs] - Official documentation and guides
+- [MindsDB GitHub][mindsdb-github] - Source code and community 
 
 # MongoDB
 MongoDB is a no-sql data platform that can not only serve general purpose data requirements also perform VectorSearch where both operational data and embeddings used of search can reside in same document.
@@ -7639,6 +8000,100 @@ suitable for large-scale applications.
 OceanBase provides strong consistency guarantees, ensuring that all transactions
 are ACID compliant.
 
+# Oracle
+Oracle Database is a widely-used relational database management system.
+
+
+## About
+
+[Oracle Database][oracle-docs] is a multi-model database management system produced and marketed by Oracle Corporation. It is commonly used for running online transaction processing (OLTP), data warehousing (DW), and mixed (OLTP & DW) database workloads.
+
+[oracle-docs]: https://www.oracle.com/database/
+
+## Available Tools
+
+- [`oracle-sql`](../tools/oracle/oracle-sql.md)
+  Execute pre-defined prepared SQL queries in Oracle.
+
+- [`oracle-execute-sql`](../tools/oracle/oracle-execute-sql.md)
+  Run parameterized SQL queries in Oracle.
+
+## Requirements
+
+### Database User
+
+This source uses standard authentication. You will need to [create an Oracle user][oracle-users] to log in to the database with the necessary permissions.
+
+[oracle-users]:
+    https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/CREATE-USER.html
+
+## Connection Methods
+
+You can configure the connection to your Oracle database using one of the following three methods. **You should only use one method** in your source configuration.
+
+### Basic Connection (Host/Port/Service Name)
+
+This is the most straightforward method, where you provide the connection details as separate fields:
+
+- `host`: The IP address or hostname of the database server.
+- `port`: The port number the Oracle listener is running on (typically 1521).
+- `serviceName`: The service name for the database instance you wish to connect to.
+
+### Connection String
+
+As an alternative, you can provide all the connection details in a single `connectionString`. This is a convenient way to consolidate the connection information. The typical format is `hostname:port/servicename`.
+
+### TNS Alias
+
+For environments that use a `tnsnames.ora` configuration file, you can connect using a TNS (Transparent Network Substrate) alias.
+
+- `tnsAlias`: Specify the alias name defined in your `tnsnames.ora` file.
+- `tnsAdmin` (Optional): If your configuration file is not in a standard location, you can use this field to provide the path to the directory containing it. This setting will override the `TNS_ADMIN` environment variable.
+
+## Example
+
+```yaml
+sources:
+    my-oracle-source:
+        kind: oracle
+        # --- Choose one connection method ---
+        # 1. Host, Port, and Service Name
+        host: 127.0.0.1
+        port: 1521
+        serviceName: XEPDB1
+
+        # 2. Direct Connection String
+        connectionString: "127.0.0.1:1521/XEPDB1"
+
+        # 3. TNS Alias (requires tnsnames.ora)
+        tnsAlias: "MY_DB_ALIAS"
+        tnsAdmin: "/opt/oracle/network/admin" # Optional: overrides TNS_ADMIN env var
+
+        user: ${USER_NAME}
+        password: ${PASSWORD}
+
+```
+
+{{< notice tip >}}
+Use environment variable replacement with the format ${ENV_NAME}
+instead of hardcoding your secrets into the configuration file.
+{{< /notice >}}
+
+## Reference
+
+| **field**        | **type** | **required** | **description**                                                                                                             |
+|------------------|:--------:|:------------:|-----------------------------------------------------------------------------------------------------------------------------|
+| kind             |  string  |     true     | Must be "oracle".                                                                                                           |
+| user             |  string  |     true     | Name of the Oracle user to connect as (e.g. "my-oracle-user").                                                              |
+| password         |  string  |     true     | Password of the Oracle user (e.g. "my-password").                                                                           |
+| host             |  string  |    false     | IP address or hostname to connect to (e.g. "127.0.0.1"). Required if not using `connectionString` or `tnsAlias`.            |
+| port             | integer  |    false     | Port to connect to (e.g. "1521"). Required if not using `connectionString` or `tnsAlias`.                                   |
+| serviceName      |  string  |    false     | The Oracle service name of the database to connect to. Required if not using `connectionString` or `tnsAlias`.              |
+| connectionString |  string  |    false     | A direct connection string (e.g. "hostname:port/servicename"). Use as an alternative to `host`, `port`, and `serviceName`.  |
+| tnsAlias         |  string  |    false     | A TNS alias from a `tnsnames.ora` file. Use as an alternative to `host`/`port` or `connectionString`.                       |
+| tnsAdmin         |  string  |    false     | Path to the directory containing the `tnsnames.ora` file. This overrides the `TNS_ADMIN` environment variable if it is set. |
+
+
 # PostgreSQL
 PostgreSQL is a powerful, open source object-relational database.
 
@@ -7670,6 +8125,9 @@ reputation for reliability, feature robustness, and performance.
 
 - [`postgres-list-installed-extensions`](../tools/postgres/postgres-list-installed-extensions.md)
   List installed extensions in a PostgreSQL database.
+
+- [`postgres-list-views`](../tools/postgres/postgres-list-views.md)
+  List views in a PostgreSQL database.
 
 ### Pre-built Configurations
 
@@ -7728,7 +8186,7 @@ lists, sets, sorted sets with range queries, bitmaps, hyperloglogs, and
 geospatial indexes with radius queries.
 
 If you are new to Redis, you can find installation and getting started guides on
-the [official Redis website](https://redis.io/docs/getting-started/).
+the [official Redis website](https://redis.io/docs/).
 
 ## Available Tools
 
@@ -7814,6 +8272,63 @@ sources:
 [auth]: https://cloud.google.com/memorystore/docs/redis/about-redis-auth
 
 
+# Serverless for Apache Spark
+Google Cloud Serverless for Apache Spark lets you run Spark workloads without requiring you to provision and manage your own Spark cluster.
+
+
+## About
+
+The [Serverless for Apache
+Spark](https://cloud.google.com/dataproc-serverless/docs/overview) source allows
+Toolbox to interact with Spark batches hosted on Google Cloud Serverless for
+Apache Spark.
+
+## Available Tools
+
+- [`serverless-spark-list-batches`](../tools/serverless-spark/serverless-spark-list-batches.md)
+  List and filter Serverless Spark batches.
+- [`serverless-spark-get-batch`](../tools/serverless-spark/serverless-spark-get-batch.md)
+  Get a Serverless Spark batch.
+
+## Requirements
+
+### IAM Permissions
+
+Serverless for Apache Spark uses [Identity and Access Management
+(IAM)](https://cloud.google.com/bigquery/docs/access-control) to control user
+and group access to serverless Spark resources like batches and sessions.
+
+Toolbox will use your [Application Default Credentials
+(ADC)](https://cloud.google.com/docs/authentication#adc) to authorize and
+authenticate when interacting with Google Cloud Serverless for Apache Spark.
+When using this method, you need to ensure the IAM identity associated with your
+ADC has the correct
+[permissions](https://cloud.google.com/dataproc-serverless/docs/concepts/iam)
+for the actions you intend to perform. Common roles include
+`roles/dataproc.serverlessEditor` (which includes permissions to run batches) or
+`roles/dataproc.serverlessViewer`. Follow this
+[guide](https://cloud.google.com/docs/authentication/provide-credentials-adc) to
+set up your ADC.
+
+## Example
+
+```yaml
+sources:
+  my-serverless-spark-source:
+    kind: serverless-spark
+    project: my-project-id
+    location: us-central1
+```
+
+## Reference
+
+| **field** | **type** | **required** | **description**                                                   |
+| --------- | :------: | :----------: | ----------------------------------------------------------------- |
+| kind      |  string  |     true     | Must be "serverless-spark".                                       |
+| project   |  string  |     true     | ID of the GCP project with Serverless for Apache Spark resources. |
+| location  |  string  |     true     | Location containing Serverless for Apache Spark resources.        |
+
+
 # Spanner
 Spanner is a fully managed database service from Google Cloud that combines  relational, key-value, graph, and search capabilities.
 
@@ -7840,6 +8355,9 @@ the Google Cloud console][spanner-quickstart].
 
 - [`spanner-execute-sql`](../tools/spanner/spanner-execute-sql.md)  
   Run structured and parameterized queries on Spanner.
+
+- [`spanner-list-tables`](../tools/spanner/spanner-list-tables.md)  
+  Retrieve schema information about tables in a Spanner database.
 
 ### Pre-built Configurations
 
@@ -8401,13 +8919,18 @@ the parameter.
         description: Airline unique 2 letter identifier
 ```
 
-| **field**   | **type**        | **required** | **description**                                                             |
-|-------------|:---------------:|:------------:|-----------------------------------------------------------------------------|
-| name        |  string         |     true     | Name of the parameter.                                                      |
-| type        |  string         |     true     | Must be one of "string", "integer", "float", "boolean" "array"              |
-| description |  string         |     true     | Natural language description of the parameter to describe it to the agent.  |
-| default     |  parameter type |     false    | Default value of the parameter. If provided, `required` will be `false`.    |
-| required    |  bool           |     false    | Indicate if the parameter is required. Default to `true`.                   |
+| **field**      |    **type**    | **required** | **description**                                                                                                                                                                                                                        |
+|----------------|:--------------:|:------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| name           |     string     |     true     | Name of the parameter.                                                                                                                                                                                                                 |
+| type           |     string     |     true     | Must be one of "string", "integer", "float", "boolean" "array"                                                                                                                                                                         |
+| description    |     string     |     true     | Natural language description of the parameter to describe it to the agent.                                                                                                                                                             |
+| default        | parameter type |    false     | Default value of the parameter. If provided, `required` will be `false`.                                                                                                                                                               |
+| required       |      bool      |    false     | Indicate if the parameter is required. Default to `true`.                                                                                                                                                                              |
+| allowedValues  |    []string    |    false     | Input value will be checked against this field. Regex is also supported.                                                                                                                                                               |
+| excludedValues |    []string    |    false     | Input value will be checked against this field. Regex is also supported.                                                                                                                                                               |
+| escape         |     string     |    false     | Only available for type `string`. Indicate the escaping delimiters used for the parameter. This field is intended to be used with templateParameters. Must be one of "single-quotes", "double-quotes", "backticks", "square-brackets". |
+| minValue       |  int or float  |    false     | Only available for type `integer` and `float`. Indicate the minimum value allowed.                                                                                                                                                     |
+| maxValue       |  int or float  |    false     | Only available for type `integer` and `float`. Indicate the maximum value allowed.                                                                                                                                                     |
 
 ### Array Parameters
 
@@ -8428,14 +8951,16 @@ in the list using the items field:
       SELECT * FROM airlines WHERE preferred_airlines = ANY($1);
 ```
 
-| **field**   |     **type**     | **required** | **description**                                                             |
-|-------------|:----------------:|:------------:|-----------------------------------------------------------------------------|
-| name        |      string      |     true     | Name of the parameter.                                                      |
-| type        |      string      |     true     | Must be "array"                                                             |
-| description |      string      |     true     | Natural language description of the parameter to describe it to the agent.  |
-| default     |  parameter type |     false    | Default value of the parameter. If provided, `required` will be `false`.     |
-| required    |  bool           |     false    | Indicate if the parameter is required. Default to `true`.                    |
-| items       | parameter object |     true     | Specify a Parameter object for the type of the values in the array.         |
+| **field**      |     **type**     | **required** | **description**                                                            |
+|----------------|:----------------:|:------------:|----------------------------------------------------------------------------|
+| name           |      string      |     true     | Name of the parameter.                                                     |
+| type           |      string      |     true     | Must be "array"                                                            |
+| description    |      string      |     true     | Natural language description of the parameter to describe it to the agent. |
+| default        |  parameter type  |    false     | Default value of the parameter. If provided, `required` will be `false`.   |
+| required       |       bool       |    false     | Indicate if the parameter is required. Default to `true`.                  |
+| allowedValues  |     []string     |    false     | Input value will be checked against this field. Regex is also supported.   |
+| excludedValues |     []string     |    false     | Input value will be checked against this field. Regex is also supported.   |
+| items          | parameter object |     true     | Specify a Parameter object for the type of the values in the array.        |
 
 {{< notice note >}}
 Items in array should not have a `default` or `required` value. If provided, it
@@ -8505,10 +9030,10 @@ user's ID token.
                 field: sub
 ```
 
-| **field** | **type** | **required** | **description**                                                                         |
-|-----------|:--------:|:------------:|-----------------------------------------------------------------------------------------|
-| name      |  string  |     true     | Name of the [authServices](../authServices/) used to verify the OIDC auth token.         |
-| field     |  string  |     true     | Claim field decoded from the OIDC token used to auto-populate this parameter.           |
+| **field** | **type** | **required** | **description**                                                                  |
+|-----------|:--------:|:------------:|----------------------------------------------------------------------------------|
+| name      |  string  |     true     | Name of the [authServices](../authServices/) used to verify the OIDC auth token. |
+| field     |  string  |     true     | Claim field decoded from the OIDC token used to auto-populate this parameter.    |
 
 ### Template Parameters
 
@@ -8528,6 +9053,14 @@ set of quotes must be explicitly added within the string.
 Because template parameters can directly replace identifiers, column names, and
 table names, they are prone to SQL injections. Basic parameters are preferred
 for performance and safety reasons.
+{{< /notice >}}
+
+{{< notice tip >}}
+To minimize SQL injection risk when using template parameters, always provide
+the `allowedValues` field within the parameter to restrict inputs.
+Alternatively, for `string` type parameters, you can use the `escape` field to
+add delimiters to the identifier. For `integer` or `float` type parameters, you
+can use `minValue` and `maxValue` to define the allowable range.
 {{< /notice >}}
 
 ```yaml
@@ -8555,14 +9088,19 @@ tools:
           name: column
           type: string
           description: Name of a column to select
+          escape: double-quotes # with this, the statement will resolve to `SELECT "id", "name" FROM flights`
 ```
 
-| **field**   | **type**         | **required**  | **description**                                                                     |
-|-------------|:----------------:|:-------------:|-------------------------------------------------------------------------------------|
-| name        |  string          |     true      | Name of the template parameter.                                                     |
-| type        |  string          |     true      | Must be one of "string", "integer", "float", "boolean" "array"                      |
-| description |  string          |     true      | Natural language description of the template parameter to describe it to the agent. |
-| items       | parameter object |true (if array)| Specify a Parameter object for the type of the values in the array (string only).   |
+| **field**      |     **type**     |  **required**   | **description**                                                                     |
+|----------------|:----------------:|:---------------:|-------------------------------------------------------------------------------------|
+| name           |      string      |      true       | Name of the template parameter.                                                     |
+| type           |      string      |      true       | Must be one of "string", "integer", "float", "boolean", "array"                     |
+| description    |      string      |      true       | Natural language description of the template parameter to describe it to the agent. |
+| default        |  parameter type  |      false      | Default value of the parameter. If provided, `required` will be `false`.            |
+| required       |       bool       |      false      | Indicate if the parameter is required. Default to `true`.                           |
+| allowedValues  |     []string     |      false      | Input value will be checked against this field. Regex is also supported.            |
+| excludedValues |     []string     |      false      | Input value will be checked against this field. Regex is also supported.            |
+| items          | parameter object | true (if array) | Specify a Parameter object for the type of the values in the array (string only).   |
 
 ## Authorized Invocations
 
@@ -8606,6 +9144,11 @@ Tools that work with Bigtable Sources.
 
 
 
+# Cassandra
+Tools that work with Cassandra Sources.
+
+
+
 # ClickHouse
 Tools for interacting with ClickHouse databases and tables.
 
@@ -8623,6 +9166,11 @@ Tools that work with Cloud SQL.
 
 # Couchbase
 Tools that work with Couchbase Sources.
+
+
+
+# Dataform
+Tools that work with Dataform.
 
 
 
@@ -8656,6 +9204,119 @@ Tools that work with Looker Sources.
 
 
 
+# MindsDB Tools
+MindsDB tools that enable SQL queries across hundreds of datasources and ML models.
+
+
+## About
+
+MindsDB is the most widely adopted AI federated database that enables you to query hundreds of datasources and ML models through a single SQL interface. The following tools work with MindsDB databases:
+
+- [mindsdb-execute-sql](mindsdb-execute-sql.md) - Execute SQL queries directly on MindsDB
+- [mindsdb-sql](mindsdb-sql.md) - Execute parameterized SQL queries on MindsDB
+
+These tools leverage MindsDB's capabilities to:
+- **Connect to Multiple Datasources**: Query databases, APIs, file systems, and more through SQL
+- **Cross-Datasource Operations**: Perform joins and analytics across different data sources
+- **ML Model Integration**: Use trained ML models as virtual tables for predictions
+- **Unstructured Data Processing**: Query documents, images, and other unstructured data as structured tables
+- **Real-time Predictions**: Get real-time predictions from ML models through SQL
+- **API Translation**: Automatically translate SQL queries into REST APIs, GraphQL, and native protocols
+
+## Supported Datasources
+
+MindsDB automatically translates your SQL queries into the appropriate APIs for hundreds of datasources:
+
+### **Business Applications**
+- **Salesforce**: Query leads, opportunities, accounts, and custom objects
+- **Jira**: Access issues, projects, workflows, and team data  
+- **GitHub**: Query repositories, commits, pull requests, and issues
+- **Slack**: Access channels, messages, and team communications
+- **HubSpot**: Query contacts, companies, deals, and marketing data
+
+### **Databases & Storage**
+- **MongoDB**: Query NoSQL collections as structured tables
+- **PostgreSQL/MySQL**: Standard relational databases
+- **Redis**: Key-value stores and caching layers
+- **Elasticsearch**: Search and analytics data
+- **S3/Google Cloud Storage**: File storage and data lakes
+
+### **Communication & Email**
+- **Gmail/Outlook**: Query emails, attachments, and metadata
+- **Microsoft Teams**: Team communications and files
+- **Discord**: Server data and message history
+
+### **Analytics & Monitoring**
+- **Google Analytics**: Website traffic and user behavior
+- **Mixpanel**: Product analytics and user events
+- **Datadog**: Infrastructure monitoring and logs
+- **Grafana**: Time-series data and metrics
+
+## Example Use Cases
+
+### Cross-Datasource Analytics
+```sql
+-- Join Salesforce opportunities with GitHub activity
+SELECT 
+    s.opportunity_name,
+    s.amount,
+    g.repository_name,
+    COUNT(g.commits) as commit_count
+FROM salesforce.opportunities s
+JOIN github.repositories g ON s.account_id = g.owner_id
+WHERE s.stage = 'Closed Won';
+```
+
+### Email & Communication Analysis
+```sql
+-- Analyze email patterns with Slack activity
+SELECT 
+    e.sender,
+    e.subject,
+    s.channel_name,
+    COUNT(s.messages) as message_count
+FROM gmail.emails e
+JOIN slack.messages s ON e.sender = s.user_name
+WHERE e.date >= '2024-01-01';
+```
+
+### ML Model Predictions
+```sql
+-- Use ML model to predict customer churn
+SELECT 
+    customer_id,
+    customer_name,
+    predicted_churn_probability,
+    recommended_action
+FROM customer_churn_model
+WHERE predicted_churn_probability > 0.8;
+```
+
+Since MindsDB implements the MySQL wire protocol, these tools are functionally compatible with MySQL tools while providing access to MindsDB's advanced federated database capabilities.
+
+## Working Configuration Example
+
+Here's a complete working configuration that has been tested:
+
+```yaml
+sources:
+  my-pg-source:
+    kind: mindsdb
+    host: 127.0.0.1
+    port: 47335
+    database: files
+    user: mindsdb
+
+tools:
+  mindsdb-execute-sql:
+    kind: mindsdb-execute-sql
+    source: my-pg-source
+    description: |
+      Execute SQL queries directly on MindsDB database.
+      Use this tool to run any SQL statement against your MindsDB instance.
+      Example: SELECT * FROM my_table LIMIT 10
+``` 
+
 # MongoDB
 Tools that work with the MongoDB Source.
 
@@ -8676,6 +9337,11 @@ Tools that work with OceanBase Sources.
 
  
 
+# Oracle
+Tools that work with Oracle Sources.
+
+ 
+
 # Postgres
 Tools that work with Postgres Sources, such as Cloud SQL for Postgres and AlloyDB. 
 
@@ -8684,6 +9350,14 @@ Tools that work with Postgres Sources, such as Cloud SQL for Postgres and AlloyD
 # Redis
 Tools that work with Redis Sources.
 
+
+
+# Serverless for Apache Spark
+Tools that work with Google Cloud Serverless for Apache Spark Sources.
+
+
+- [serverless-spark-get-batch](./serverless-spark-get-batch.md)
+- [serverless-spark-list-batches](./serverless-spark-list-batches.md)
 
 
 # Spanner
@@ -8721,103 +9395,9 @@ Tools that work with Valkey Sources.
 
 
 
-# yugabytedb-sql
-A "yugabytedb-sql" tool executes a pre-defined SQL statement against a YugabyteDB database.
+# YugabyteDB
+Tools that work with Valkey Sources.
 
-
-## About
-
-A `yugabytedb-sql` tool executes a pre-defined SQL statement against a YugabyteDB
-database.
-
-The specified SQL statement is executed as a prepared statement,
-and specified parameters will inserted according to their position: e.g. `1`
-will be the first parameter specified, `$@` will be the second parameter, and so
-on. If template parameters are included, they will be resolved before execution
-of the prepared statement.
-
-## Example
-
-> **Note:** This tool uses parameterized queries to prevent SQL injections.
-> Query parameters can be used as substitutes for arbitrary expressions.
-> Parameters cannot be used as substitutes for identifiers, column names, table
-> names, or other parts of the query.
-
-```yaml
-tools:
- search_flights_by_number:
-    kind: yugabytedb-sql
-    source: my-yb-instance
-    statement: |
-      SELECT * FROM flights
-      WHERE airline = $1
-      AND flight_number = $2
-      LIMIT 10
-    description: |
-      Use this tool to get information for a specific flight.
-      Takes an airline code and flight number and returns info on the flight.
-      Do NOT use this tool with a flight id. Do NOT guess an airline code or flight number.
-      A airline code is a code for an airline service consisting of two-character
-      airline designator and followed by flight number, which is 1 to 4 digit number.
-      For example, if given CY 0123, the airline is "CY", and flight_number is "123".
-      Another example for this is DL 1234, the airline is "DL", and flight_number is "1234".
-      If the tool returns more than one option choose the date closes to today.
-      Example:
-      {{
-          "airline": "CY",
-          "flight_number": "888",
-      }}
-      Example:
-      {{
-          "airline": "DL",
-          "flight_number": "1234",
-      }}
-    parameters:
-      - name: airline
-        type: string
-        description: Airline unique 2 letter identifier
-      - name: flight_number
-        type: string
-        description: 1 to 4 digit number
-```
-
-### Example with Template Parameters
-
-> **Note:** This tool allows direct modifications to the SQL statement,
-> including identifiers, column names, and table names. **This makes it more
-> vulnerable to SQL injections**. Using basic parameters  only (see above) is
-> recommended for performance and safety reasons. For more details, please check
-> [templateParameters](_index#template-parameters).
-
-```yaml
-tools:
- list_table:
-    kind: yugabytedb-sql
-    source: my-yb-instance
-    statement: |
-      SELECT * FROM {{.tableName}}
-    description: |
-      Use this tool to list all information from a specific table.
-      Example:
-      {{
-          "tableName": "flights",
-      }}
-    templateParameters:
-      - name: tableName
-        type: string
-        description: Table to select from
-```
-
-## Reference
-
-| **field**          |                     **type**                     | **required** | **description**                                                                                                                            |
-|--------------------|:------------------------------------------------:|:------------:|--------------------------------------------------------------------------------------------------------------------------------------------|
-| kind               |                      string                      |     true     | Must be "yugabytedb-sql".                                                                                                                  |
-| source             |                      string                      |     true     | Name of the source the SQL should execute on.                                                                                              |
-| description        |                      string                      |     true     | Description of the tool that is passed to the LLM.                                                                                         |
-| statement          |                      string                      |     true     | SQL statement to execute on.                                                                                                               |
-| parameters         |    [parameters](_index#specifying-parameters)    |    false     | List of [parameters](_index#specifying-parameters) that will be inserted into the SQL statement.                                           |
-| templateParameters | [templateParameters](_index#template-parameters) |    false     | List of [templateParameters](_index#template-parameters) that will be inserted into the SQL statement before executing prepared statement. |
 
 
 # Samples
@@ -8950,7 +9530,7 @@ In this section, we will download and install the Toolbox binary.
     <!-- {x-release-please-start-version} -->
     ```bash
     export OS="linux/amd64" # one of linux/amd64, darwin/arm64, darwin/amd64, or windows/amd64
-    export VERSION="0.15.0"
+    export VERSION="0.18.0"
     curl -O https://storage.googleapis.com/genai-toolbox/v$VERSION/$OS/toolbox
     ```
     <!-- {x-release-please-end} -->
@@ -9190,11 +9770,13 @@ Run the Toolbox server, pointing to the `tools.yaml` file created earlier:
 - Learn more about [Toolbox Resources](../../resources/).
 - Learn more about [Toolbox How-to guides](../../how-to/).
 
+
 # Getting started with alloydb-ai-nl tool
 An end to end tutorial for building an ADK agent using the AlloyDB AI NL tool.
 
 
 {{< ipynb "alloydb_ai_nl.ipynb" >}}
+
 
 # BigQuery
 How to get started with Toolbox using BigQuery.
@@ -9377,7 +9959,7 @@ to use BigQuery, and then run the Toolbox server.
     <!-- {x-release-please-start-version} -->
     ```bash
     export OS="linux/amd64" # one of linux/amd64, darwin/arm64, darwin/amd64, or windows/amd64
-    curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/$OS/toolbox
+    curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/$OS/toolbox
     ```
     <!-- {x-release-please-end} -->
 
@@ -10011,7 +10593,7 @@ In this section, we will download Toolbox, configure our tools in a
     <!-- {x-release-please-start-version} -->
     ```bash
     export OS="linux/amd64" # one of linux/amd64, darwin/arm64, darwin/amd64, or windows/amd64
-    curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/$OS/toolbox
+    curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/$OS/toolbox
     ```
     <!-- {x-release-please-end} -->
 
@@ -10205,7 +10787,7 @@ In this section, we will download Toolbox and run the Toolbox server.
     <!-- {x-release-please-start-version} -->
     ```bash
     export OS="linux/amd64" # one of linux/amd64, darwin/arm64, darwin/amd64, or windows/amd64
-    curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/$OS/toolbox
+    curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/$OS/toolbox
     ```
     <!-- {x-release-please-end} -->
 
@@ -10221,6 +10803,7 @@ In this section, we will download Toolbox and run the Toolbox server.
    ```bash
     export LOOKER_BASE_URL=https://looker.example.com
     export LOOKER_VERIFY_SSL=true
+    export LOOKER_USE_CLIENT_OAUTH=true
    ```
 
    In some instances you may need to append `:19999` to
@@ -10329,7 +10912,7 @@ In this section, we will download Toolbox and run the Toolbox server.
     <!-- {x-release-please-start-version} -->
     ```bash
     export OS="linux/amd64" # one of linux/amd64, darwin/arm64, darwin/amd64, or windows/amd64
-    curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/$OS/toolbox
+    curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/$OS/toolbox
     ```
     <!-- {x-release-please-end} -->
 
@@ -10415,7 +10998,7 @@ How to get started running Toolbox with MCP Inspector and Looker as the source.
 
 [Model Context Protocol](https://modelcontextprotocol.io) is an open protocol
 that standardizes how applications provide context to LLMs. Check out this page
-on how to [connect to Toolbox via MCP](../../how-to/connect_via_mcp.md).
+on how to [connect to Toolbox via MCP](../../../how-to/connect_via_mcp.md).
 
 ## Step 1: Get a Looker Client ID and Client Secret
 
@@ -10439,7 +11022,7 @@ In this section, we will download Toolbox and run the Toolbox server.
     <!-- {x-release-please-start-version} -->
     ```bash
     export OS="linux/amd64" # one of linux/amd64, darwin/arm64, darwin/amd64, or windows/amd64
-    curl -O https://storage.googleapis.com/genai-toolbox/v0.15.0/$OS/toolbox
+    curl -O https://storage.googleapis.com/genai-toolbox/v0.18.0/$OS/toolbox
     ```
     <!-- {x-release-please-end} -->
 
@@ -10758,6 +11341,8 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
     *   `list_replication_slots`: Lists replication slots in the database.
     *   `list_invalid_indexes`: Lists invalid indexes in the database.
     *   `get_query_plan`: Generate the execution plan of a statement.
+    *   `list_views`: Lists views in the database from pg_views with a default
+        limit of 50 rows. Returns schemaname, viewname and the ownername.
 
 ## AlloyDB Postgres Admin
 
@@ -10799,6 +11384,8 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
 *   **Environment Variables:**
     *   `BIGQUERY_PROJECT`: The GCP project ID.
     *   `BIGQUERY_LOCATION`: (Optional) The dataset location.
+    *   `BIGQUERY_USE_CLIENT_OAUTH`: (Optional) If `true`, forwards the client's
+        OAuth access token for authentication. Defaults to `false`.
 *   **Permissions:**
     *   **BigQuery User** (`roles/bigquery.user`) to execute queries and view
         metadata.
@@ -10847,6 +11434,10 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
     *   `list_tables`: Lists tables in the database.
     *   `get_query_plan`: Provides information about how MySQL executes a SQL
         statement.
+    *   `list_active_queries`: Lists ongoing queries.
+    *   `list_tables_missing_unique_indexes`: Looks for tables that do not have
+        primary or unique key contraint.
+    *   `list_table_fragmentation`: Displays table fragmentation in MySQL.
 
 ## Cloud SQL for MySQL Observability
 
@@ -10919,6 +11510,8 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
     *   `list_replication_slots`: Lists replication slots in the database.
     *   `list_invalid_indexes`: Lists invalid indexes in the database.
     *   `get_query_plan`: Generate the execution plan of a statement.
+    *   `list_views`: Lists views in the database from pg_views with a default
+        limit of 50 rows. Returns schemaname, viewname and the ownername.
 
 ## Cloud SQL for PostgreSQL Observability
 
@@ -10969,7 +11562,6 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
     *   `CLOUD_SQL_MSSQL_REGION`: The region of your Cloud SQL instance.
     *   `CLOUD_SQL_MSSQL_INSTANCE`: The ID of your Cloud SQL instance.
     *   `CLOUD_SQL_MSSQL_DATABASE`: The name of the database to connect to.
-    *   `CLOUD_SQL_MSSQL_IP_ADDRESS`: The IP address of the Cloud SQL instance.
     *   `CLOUD_SQL_MSSQL_USER`: The database username.
     *   `CLOUD_SQL_MSSQL_PASSWORD`: The password for the database user.
     *   `CLOUD_SQL_MSSQL_IP_TYPE`: (Optional) The IP type i.e. "Public" or
@@ -11069,6 +11661,10 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
     *   `LOOKER_CLIENT_ID`: The client ID for the Looker API.
     *   `LOOKER_CLIENT_SECRET`: The client secret for the Looker API.
     *   `LOOKER_VERIFY_SSL`: Whether to verify SSL certificates.
+    *   `LOOKER_USE_CLIENT_OAUTH`: Whether to use OAuth for authentication.
+    *   `LOOKER_SHOW_HIDDEN_MODELS`: Whether to show hidden models.
+    *   `LOOKER_SHOW_HIDDEN_EXPLORES`: Whether to show hidden explores.
+    *   `LOOKER_SHOW_HIDDEN_FIELDS`: Whether to show hidden fields.
 *   **Permissions:**
     *   A Looker account with permissions to access the desired models,
         explores, and data is required.
@@ -11088,6 +11684,35 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
     *   `get_dashboards`: Searches for saved dashboards.
     *   `make_dashboard`: Creates a new dashboard.
     *   `add_dashboard_element`: Adds a tile to a dashboard.
+    *   `health_pulse`: Test the health of a Looker instance.
+    *   `health_analyze`: Analyze the LookML usage of a Looker instance.
+    *   `health_vacuum`: Suggest LookML elements that can be removed.
+
+## Looker Conversational Analytics
+
+*   `--prebuilt` value: `looker-conversational-analytics`
+*   **Environment Variables:**
+    *   `LOOKER_BASE_URL`: The URL of your Looker instance.
+    *   `LOOKER_CLIENT_ID`: The client ID for the Looker API.
+    *   `LOOKER_CLIENT_SECRET`: The client secret for the Looker API.
+    *   `LOOKER_VERIFY_SSL`: Whether to verify SSL certificates.
+    *   `LOOKER_USE_CLIENT_OAUTH`: Whether to use OAuth for authentication.
+    *   `LOOKER_PROJECT`: The GCP Project to use for Conversational Analytics.
+    *   `LOOKER_LOCATION`: The GCP Location to use for Conversational Analytics.
+*   **Permissions:**
+    *   A Looker account with permissions to access the desired models,
+        explores, and data is required.
+    *   **Looker Instance User** (`roles/looker.instanceUser`): IAM role to
+        access Looker.
+    *   **Gemini for Google Cloud User** (`roles/cloudaicompanion.user`): IAM
+        role to access Conversational Analytics.
+    *   **Gemini Data Analytics Stateless Chat User (Beta)**
+        (`roles/geminidataanalytics.dataAgentStatelessUser`): IAM role to
+        access Conversational Analytics.
+*   **Tools:**
+    *   `ask_data_insights`: Ask a question of the data.
+    *   `get_models`: Retrieves the list of LookML models.
+    *   `get_explores`: Retrieves the list of explores in a model.
 
 ## Microsoft SQL Server
 
@@ -11122,6 +11747,10 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
     *   `list_tables`: Lists tables in the database.
     *   `get_query_plan`: Provides information about how MySQL executes a SQL
         statement.
+    *   `list_active_queries`: Lists ongoing queries.
+    *   `list_tables_missing_unique_indexes`: Looks for tables that do not have
+        primary or unique key contraint.
+    *   `list_table_fragmentation`: Displays table fragmentation in MySQL.
 
 ## OceanBase
 
@@ -11164,6 +11793,22 @@ details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.
     *   `list_replication_slots`: Lists replication slots in the database.
     *   `list_invalid_indexes`: Lists invalid indexes in the database.
     *   `get_query_plan`: Generate the execution plan of a statement.
+    *   `list_views`: Lists views in the database from pg_views with a default
+        limit of 50 rows. Returns schemaname, viewname and the ownername.
+
+## Google Cloud Serverless for Apache Spark
+
+*   `--prebuilt` value: `serverless-spark`
+*   **Environment Variables:**
+    *   `SERVERLESS_SPARK_PROJECT`: The GCP project ID
+    *   `SERVERLESS_SPARK_LOCATION`: The GCP Location.
+*   **Permissions:**
+    *   **Dataproc Serverless Viewer** (`roles/dataproc.serverlessViewer`) to
+        view serverless batches.
+    *   **Dataproc Serverless Editor** (`roles/dataproc.serverlessEditor`) to
+        view serverless batches.
+*   **Tools:**
+    *   `list_batches`: Lists Spark batches.
 
 ## Spanner (GoogleSQL dialect)
 
