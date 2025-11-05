@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Reference on MCP Toolbox for Databases</title><link>https://sanyaade-teachings.github.io/genai-toolbox-for-databases/dev/reference/</link><description>Recent content in Reference on MCP Toolbox for Databases</description><generator>Hugo</generator><language>en</language><atom:link href="https://sanyaade-teachings.github.io/genai-toolbox-for-databases/dev/reference/index.xml" rel="self" type="application/rss+xml"/><item><title>CLI</title><link>https://sanyaade-teachings.github.io/genai-toolbox-for-databases/dev/reference/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://sanyaade-teachings.github.io/genai-toolbox-for-databases/dev/reference/cli/</guid><description>&lt;h2 id="reference">Reference&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Reference on MCP Toolbox for Databases</title><link>https://sanyaade-teachings.github.io/mcp-toolbox-for-databases/dev/reference/</link><description>Recent content in Reference on MCP Toolbox for Databases</description><generator>Hugo</generator><language>en</language><atom:link href="https://sanyaade-teachings.github.io/mcp-toolbox-for-databases/dev/reference/index.xml" rel="self" type="application/rss+xml"/><item><title>CLI</title><link>https://sanyaade-teachings.github.io/mcp-toolbox-for-databases/dev/reference/cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://sanyaade-teachings.github.io/mcp-toolbox-for-databases/dev/reference/cli/</guid><description>&lt;h2 id="reference">Reference&lt;/h2>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -48,7 +48,7 @@
  &lt;tr>
  &lt;td>&lt;/td>
  &lt;td>&lt;code>--prebuilt&lt;/code>&lt;/td>
- &lt;td>Use a prebuilt tool configuration by source type. Cannot be used with &amp;ndash;tools-file. See &lt;a href="https://sanyaade-teachings.github.io/genai-toolbox-for-databases/dev/reference/prebuilt-tools/">Prebuilt Tools Reference&lt;/a> for allowed values.&lt;/td>
+ &lt;td>Use a prebuilt tool configuration by source type. Cannot be used with &amp;ndash;tools-file. See &lt;a href="https://sanyaade-teachings.github.io/mcp-toolbox-for-databases/dev/reference/prebuilt-tools/">Prebuilt Tools Reference&lt;/a> for allowed values.&lt;/td>
  &lt;td>&lt;/td>
  &lt;/tr>
  &lt;tr>
@@ -109,10 +109,10 @@
 &lt;/table>
 &lt;h2 id="examples">Examples&lt;/h2>
 &lt;h3 id="transport-configuration">Transport Configuration&lt;/h3>
-&lt;p>&lt;strong>Server Settings:&lt;/strong>&lt;/p></description></item><item><title>Prebuilt Tools</title><link>https://sanyaade-teachings.github.io/genai-toolbox-for-databases/dev/reference/prebuilt-tools/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://sanyaade-teachings.github.io/genai-toolbox-for-databases/dev/reference/prebuilt-tools/</guid><description>&lt;p>Prebuilt tools are reusable, pre-packaged toolsets that are designed to extend
+&lt;p>&lt;strong>Server Settings:&lt;/strong>&lt;/p></description></item><item><title>Prebuilt Tools</title><link>https://sanyaade-teachings.github.io/mcp-toolbox-for-databases/dev/reference/prebuilt-tools/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://sanyaade-teachings.github.io/mcp-toolbox-for-databases/dev/reference/prebuilt-tools/</guid><description>&lt;p>Prebuilt tools are reusable, pre-packaged toolsets that are designed to extend
 the capabilities of agents. These tools are built to be generic and adaptable,
 allowing developers to interact with and take action on databases.&lt;/p>
-&lt;p>See guides, &lt;a href="https://sanyaade-teachings.github.io/genai-toolbox-for-databases/dev/how-to/connect-ide/">Connect from your IDE&lt;/a>, for
+&lt;p>See guides, &lt;a href="https://sanyaade-teachings.github.io/mcp-toolbox-for-databases/dev/how-to/connect-ide/">Connect from your IDE&lt;/a>, for
 details on how to connect your AI tools (IDEs) to databases via Toolbox and MCP.&lt;/p>
 &lt;h2 id="alloydb-postgres">AlloyDB Postgres&lt;/h2>
 &lt;ul>
@@ -151,6 +151,8 @@ database.&lt;/li>
 &lt;li>&lt;code>list_replication_slots&lt;/code>: Lists replication slots in the database.&lt;/li>
 &lt;li>&lt;code>list_invalid_indexes&lt;/code>: Lists invalid indexes in the database.&lt;/li>
 &lt;li>&lt;code>get_query_plan&lt;/code>: Generate the execution plan of a statement.&lt;/li>
+&lt;li>&lt;code>list_views&lt;/code>: Lists views in the database from pg_views with a default
+limit of 50 rows. Returns schemaname, viewname and the ownername.&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
@@ -378,6 +380,8 @@ database.&lt;/li>
 &lt;li>&lt;code>list_replication_slots&lt;/code>: Lists replication slots in the database.&lt;/li>
 &lt;li>&lt;code>list_invalid_indexes&lt;/code>: Lists invalid indexes in the database.&lt;/li>
 &lt;li>&lt;code>get_query_plan&lt;/code>: Generate the execution plan of a statement.&lt;/li>
+&lt;li>&lt;code>list_views&lt;/code>: Lists views in the database from pg_views with a default
+limit of 50 rows. Returns schemaname, viewname and the ownername.&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
@@ -452,7 +456,6 @@ all resources.
 &lt;li>&lt;code>CLOUD_SQL_MSSQL_REGION&lt;/code>: The region of your Cloud SQL instance.&lt;/li>
 &lt;li>&lt;code>CLOUD_SQL_MSSQL_INSTANCE&lt;/code>: The ID of your Cloud SQL instance.&lt;/li>
 &lt;li>&lt;code>CLOUD_SQL_MSSQL_DATABASE&lt;/code>: The name of the database to connect to.&lt;/li>
-&lt;li>&lt;code>CLOUD_SQL_MSSQL_IP_ADDRESS&lt;/code>: The IP address of the Cloud SQL instance.&lt;/li>
 &lt;li>&lt;code>CLOUD_SQL_MSSQL_USER&lt;/code>: The database username.&lt;/li>
 &lt;li>&lt;code>CLOUD_SQL_MSSQL_PASSWORD&lt;/code>: The password for the database user.&lt;/li>
 &lt;li>&lt;code>CLOUD_SQL_MSSQL_IP_TYPE&lt;/code>: (Optional) The IP type i.e. &amp;ldquo;Public&amp;rdquo; or
@@ -783,6 +786,8 @@ database.&lt;/li>
 &lt;li>&lt;code>list_replication_slots&lt;/code>: Lists replication slots in the database.&lt;/li>
 &lt;li>&lt;code>list_invalid_indexes&lt;/code>: Lists invalid indexes in the database.&lt;/li>
 &lt;li>&lt;code>get_query_plan&lt;/code>: Generate the execution plan of a statement.&lt;/li>
+&lt;li>&lt;code>list_views&lt;/code>: Lists views in the database from pg_views with a default
+limit of 50 rows. Returns schemaname, viewname and the ownername.&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
